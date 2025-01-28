@@ -1,14 +1,14 @@
 public abstract class Animal {
-    // Параметри тварини
-    protected double weight;
-    protected int maxNumberInLocation;
-    protected int movementSpeed;
-    protected double foodNeeded;
 
-    protected int satiety;
-    protected boolean isAlive = true;
+    private final double weight;
+    private final int maxNumberInLocation;
+    private final int movementSpeed;
+    private final double foodNeeded;
 
-    protected Animal(double weight, int maxNumberInLocation, int movementSpeed, double foodNeeded) {
+    private int satiety;
+    private boolean isAlive = true;
+
+    public Animal(double weight, int maxNumberInLocation, int movementSpeed, double foodNeeded) {
         this.weight = weight;
         this.maxNumberInLocation = maxNumberInLocation;
         this.movementSpeed = movementSpeed;
@@ -33,8 +33,7 @@ public abstract class Animal {
         return isAlive;
     }
 
-    public void setAlive(boolean alive) {
-        this.isAlive = alive;
+    public void setAlive(boolean alive){
+        this.isAlive=alive;
     }
-
 }
