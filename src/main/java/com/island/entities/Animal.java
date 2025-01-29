@@ -66,16 +66,16 @@ public abstract class Animal {
         long sameSpecies = 0;
         long potentialParents = 0;
 
-        for(Animal animal : this.location.getAnimals()){
+        for(Animal animal : this.getLocation().getAnimals()){
             if (animal.getClass().equals(this.getClass())){
                 sameSpecies++;
-                if (animal.isAlive() && animal.isFull()){
+                if (animal.isAlive() && animal.getSatiety()>=100){
                     potentialParents++;
                 }
             }
         }
 
-        if (potentialParents>=2 || sameSpecies<this.maxNumberInLocation){
+        if (potentialParents>=2 || sameSpecies<this.getMaxNumberInLocation()){
             this.reproduce();
             return true;
         }
@@ -83,9 +83,21 @@ public abstract class Animal {
         return false;
     }
 
+    public void decreaseSatiety(){
+        if (this.isAlive() && this.getSatiety()>0){
+            double reduceSatiety = this.getWeight()* ThreadLocalRandom.current().nextDouble(0,0.2);
+            setSatiety(Math.max(0, this.getSatiety() - reduceSatiety));
+        } else {
+            this.setDead();
+        }
+    }
+
     public abstract void reproduce();
 
-    public abstract boolean isFull();
+
+    public abstract double getSatiety();
+
+    public abstract void setSatiety(double satiety);
 
     public abstract boolean eat();
 
@@ -93,10 +105,6 @@ public abstract class Animal {
 
     public double getWeight() {
         return weight;
-    }
-
-    public int getMaxNumberInLocation() {
-        return maxNumberInLocation;
     }
 
     public boolean isAlive() {
@@ -109,5 +117,9 @@ public abstract class Animal {
 
     public Location getLocation() {
         return location;
+    }
+
+    public int getMaxNumberInLocation() {
+        return maxNumberInLocation;
     }
 }

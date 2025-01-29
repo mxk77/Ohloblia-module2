@@ -30,18 +30,9 @@ public abstract class Herbivore extends Animal {
         }
     }
 
-    public void decreaseSatiety(){
-        if (this.isAlive() && this.satiety>0){
-            double reduceSatiety = this.getWeight()* ThreadLocalRandom.current().nextDouble(0,0.5);
-            satiety = Math.max(0, this.satiety - reduceSatiety);
-        } else {
-            this.setDead();
-        }
-    }
-
     @Override
     public boolean eat() {
-        if (!this.isAlive() || this.isFull()) {
+        if (!this.isAlive() || this.getSatiety()>=100) {
             return false;
         }
 
@@ -67,7 +58,12 @@ public abstract class Herbivore extends Animal {
     }
 
     @Override
-    public boolean isFull(){
-        return satiety>=100;
+    public double getSatiety() {
+        return satiety;
+    }
+
+    @Override
+    public void setSatiety(double satiety) {
+        this.satiety = satiety;
     }
 }
