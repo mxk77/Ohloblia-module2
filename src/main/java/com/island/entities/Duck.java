@@ -13,7 +13,7 @@ public class Duck extends Herbivore {
     }
 
     private boolean tryEatOther(){
-        if (!this.isAlive() || this.isFull()){
+        if (!this.isAlive() || this.getSatiety()>=100){
             return false;
         }
 

@@ -24,8 +24,6 @@ public class Simulation {
     }
 
     public void start() {
-        printInitialStatistics();
-
         executor.scheduleAtFixedRate(
                 this::runCycle,
                 0,
