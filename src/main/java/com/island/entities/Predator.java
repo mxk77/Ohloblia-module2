@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Predator extends Animal {
 
     private final double foodNeeded;
-    private double satiety;
+    private double satiety=50;
 
     protected Predator(double weight, int maxNumberInLocation, int movementSpeed, double foodNeeded, Location location) {
         super(weight, maxNumberInLocation, movementSpeed, location);

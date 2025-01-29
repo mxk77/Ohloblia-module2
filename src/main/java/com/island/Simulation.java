@@ -6,7 +6,9 @@ import com.island.config.Location;
 import com.island.entities.Animal;
 import com.island.entities.Plant;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -93,7 +95,8 @@ public class Simulation {
         for (int x = 0; x < island.getWIDTH(); x++) {
             for (int y = 0; y< island.getHEIGHT(); y++){
                 Location location=island.getLocation(x,y);
-                for (Animal animal : location.getAnimals()){
+                List<Animal> animals = new ArrayList<>(location.getAnimals());
+                for (Animal animal : animals){
                     if (animal.move(island)){
                         movedThisTick++;
                     }
@@ -109,7 +112,8 @@ public class Simulation {
         for (int x = 0; x < island.getWIDTH(); x++) {
             for (int y = 0; y< island.getHEIGHT(); y++){
                 Location location=island.getLocation(x,y);
-                for (Animal animal : location.getAnimals()){
+                List<Animal> animals = new ArrayList<>(location.getAnimals());
+                for (Animal animal : animals){
                     if (!animal.isAlive()){
                         diedThisTick++;
                         locationsWithDead.add(location);
@@ -125,7 +129,8 @@ public class Simulation {
         for (int x = 0; x < island.getWIDTH(); x++) {
             for (int y = 0; y< island.getHEIGHT(); y++){
                 Location location=island.getLocation(x,y);
-                for (Animal animal : location.getAnimals()){
+                List<Animal> animals = new ArrayList<>(location.getAnimals());
+                for (Animal animal : animals){
                     if (animal.eat()){
                         ateThisTick++;
                     }
@@ -149,7 +154,8 @@ public class Simulation {
         for (int x = 0; x < island.getWIDTH(); x++) {
             for (int y = 0; y< island.getHEIGHT(); y++){
                 Location location=island.getLocation(x,y);
-                for (Animal animal : location.getAnimals()){
+                List<Animal> animals = new ArrayList<>(location.getAnimals());
+                for (Animal animal : animals){
                     if (animal.isAlive()){
                         return false;
                     }
@@ -164,7 +170,7 @@ public class Simulation {
         System.out.println("  Походило тварин: " + movedThisTick);
         System.out.println("  Померло тварин: " + diedThisTick);
         System.out.println("  Народилося тварин: " + bornThisTick);
-        System.out.println("  Поїли тварин: " + ateThisTick);
+        System.out.println("  Поїло тварин: " + ateThisTick);
         System.out.println("  Виросло рослин: " + plantsGrewThisTick);
 
     }

@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public abstract class Herbivore extends Animal {
 
     private final double foodNeeded;
-    private double satiety;
+    private double satiety = 50;
 
     protected Herbivore(double weight, int maxNumberInLocation, int movementSpeed, double foodNeeded, Location location) {
         super(weight, maxNumberInLocation, movementSpeed, location);
