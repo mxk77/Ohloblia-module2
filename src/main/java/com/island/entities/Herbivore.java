@@ -1,11 +1,12 @@
 package com.island.entities;
 
+import com.island.config.AnimalType;
 import com.island.config.Location;
 
 public abstract class Herbivore extends Animal {
 
     private final double foodNeeded;
-    private int satiety;
+    private double satiety;
 
     protected Herbivore(double weight, int maxNumberInLocation, int movementSpeed, double foodNeeded, Location location) {
         super(weight, maxNumberInLocation, movementSpeed, location);
@@ -13,6 +14,9 @@ public abstract class Herbivore extends Animal {
     }
 
     public abstract void reproduce();
+
+    public abstract AnimalType getType();
+
 
     @Override
     public boolean eat() {

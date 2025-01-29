@@ -1,5 +1,6 @@
 package com.island.entities;
 
+import com.island.config.AnimalType;
 import com.island.config.Location;
 
 public class Plant {
@@ -25,7 +26,11 @@ public class Plant {
         return isAlive;
     }
 
-    public void setAlive(boolean alive) {
-        isAlive = alive;
+    public void setDead() {
+        isAlive = false;
+    }
+
+    public AnimalType getType(){
+        return AnimalType.PLANT;
     }
 }

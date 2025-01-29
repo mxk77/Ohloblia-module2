@@ -1,5 +1,6 @@
 package com.island.entities;
 
+import com.island.config.AnimalType;
 import com.island.config.Island;
 import com.island.config.Location;
 
@@ -22,9 +23,9 @@ public abstract class Animal {
         location.addAnimal(this);
     }
 
-    public void move(Island island){
+    public boolean move(Island island){
         if (!this.isAlive || this.movementSpeed==0){
-            return;
+            return false;
         }
 
         int direction = ThreadLocalRandom.current().nextInt(4);
@@ -43,9 +44,12 @@ public abstract class Animal {
             case 2 -> newX=Math.max(x-steps, 0); //LEFT
             case 3 -> newX=Math.min(x+steps, island.getWIDTH() - 1); //RIGHT
             default -> {
-                newX=x;
-                newY=y;
+                return false;
             }
+        }
+
+        if (newX == x && newY == y) {
+            return false;
         }
 
         this.location.removeAnimal(this);
@@ -54,6 +58,8 @@ public abstract class Animal {
         newLocation.addAnimal(this);
 
         this.location=newLocation;
+
+        return true;
     }
 
     public boolean multiply(){
@@ -82,6 +88,8 @@ public abstract class Animal {
     public abstract boolean isFull();
 
     public abstract boolean eat();
+
+    public abstract AnimalType getType();
 
     public double getWeight() {
         return weight;
