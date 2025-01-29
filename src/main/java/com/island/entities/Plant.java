@@ -7,7 +7,6 @@ public class Plant {
     private static double weight=1;
     private static final int maxNumberInLocation=200;
 
-    private boolean isAlive;
     Location location;
 
     public  Plant(Location location){
@@ -20,14 +19,6 @@ public class Plant {
 
     public int getMaxNumberInLocation() {
         return maxNumberInLocation;
-    }
-
-    public boolean isAlive() {
-        return isAlive;
-    }
-
-    public void setDead() {
-        isAlive = false;
     }
 
     public AnimalType getType(){
