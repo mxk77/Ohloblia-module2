@@ -1,3 +1,8 @@
+package island;
+
+import entities.Animal;
+import entities.Plant;
+
 import java.util.ArrayList;
 import java.util.List;
 

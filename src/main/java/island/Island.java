@@ -1,3 +1,5 @@
+package island;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,5 +21,13 @@ public class Island {
 
     public Location getLocation(int x, int y) {
         return map.get(x).get(y);
+    }
+
+    public int getHEIGHT() {
+        return HEIGHT;
+    }
+
+    public int getWIDTH() {
+        return WIDTH;
     }
 }

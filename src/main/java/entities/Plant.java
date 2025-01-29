@@ -1,8 +1,17 @@
+package entities;
+
+import island.Location;
+
 public class Plant {
     private static double weight=1;
     private static final int maxNumberInLocation=200;
 
     private boolean isAlive;
+    Location location;
+
+    public  Plant(Location location){
+        this.location=location;
+    }
 
     public double getWeight() {
         return weight;
