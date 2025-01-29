@@ -1,13 +1,13 @@
-package com.island_simulation.entities;
+package com.island.entities;
 
-import com.island_simulation.island_config.Location;
+import com.island.config.Location;
 
-public abstract class Herbivore extends Animal {
+public abstract class Predator extends Animal {
 
     private final double foodNeeded;
     private int satiety;
 
-    protected Herbivore(double weight, int maxNumberInLocation, int movementSpeed, double foodNeeded, Location location) {
+    protected Predator(double weight, int maxNumberInLocation, int movementSpeed, double foodNeeded, Location location) {
         super(weight, maxNumberInLocation, movementSpeed, location);
         this.foodNeeded=foodNeeded;
     }
@@ -16,7 +16,7 @@ public abstract class Herbivore extends Animal {
 
     @Override
     public boolean eat() {
-        return false;
+        return true;
     }
 
     @Override

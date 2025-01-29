@@ -1,7 +1,7 @@
-package com.island_simulation.entities;
+package com.island.entities;
 
-import com.island_simulation.island_config.Island;
-import com.island_simulation.island_config.Location;
+import com.island.config.Island;
+import com.island.config.Location;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -56,7 +56,7 @@ public abstract class Animal {
         this.location=newLocation;
     }
 
-    public void multiply(){
+    public boolean multiply(){
         long sameSpecies = 0;
         long potentialParents = 0;
 
@@ -71,7 +71,10 @@ public abstract class Animal {
 
         if (potentialParents>=2 || sameSpecies<this.maxNumberInLocation){
             this.reproduce();
+            return true;
         }
+
+        return false;
     }
 
     public abstract void reproduce();

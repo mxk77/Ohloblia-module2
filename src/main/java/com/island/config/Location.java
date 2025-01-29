@@ -1,7 +1,7 @@
-package com.island_simulation.island_config;
+package com.island.config;
 
-import com.island_simulation.entities.Animal;
-import com.island_simulation.entities.Plant;
+import com.island.entities.Animal;
+import com.island.entities.Plant;
 
 import java.util.ArrayList;
 import java.util.List;

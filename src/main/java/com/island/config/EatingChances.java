@@ -1,4 +1,4 @@
-package com.island_simulation.island_config;
+package com.island.config;
 
 import java.util.Collections;
 import java.util.HashMap;

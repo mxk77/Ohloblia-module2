@@ -1,6 +1,6 @@
-package com.island_simulation.entities;
+package com.island.entities;
 
-import com.island_simulation.island_config.Location;
+import com.island.config.Location;
 
 public class Eagle extends Predator {
     public Eagle(Location location){
