@@ -1,7 +1,13 @@
 package com.island;
 
 import com.island.config.Island;
+import com.island.config.IslandInitializer;
+import com.island.config.Location;
+import com.island.entities.Animal;
+import com.island.entities.Plant;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -9,21 +15,28 @@ import java.util.concurrent.TimeUnit;
 public class Simulation {
     private final Island island;
 
+    private final int numberOfTicks;
+
     private int tickCounter = 0;
 
+    private int movedThisTick = 0;
     private int diedThisTick = 0;
     private int bornThisTick = 0;
     private int ateThisTick = 0;
-    private int multipliedThisTick = 0;
+    private int plantsGrewThisTick = 0;
+
+    private final Set<Location> locationsWithDead = new HashSet<>();
 
     private final ScheduledExecutorService executor;
 
-    public Simulation(Island island) {
+    public Simulation(Island island, int numberOfTicks) {
         this.island = island;
+        this.numberOfTicks = numberOfTicks;
         this.executor = Executors.newScheduledThreadPool(1);
     }
 
-    public void start() {
+    public void start(IslandInitializer initializer) {
+        initializer.initializeAll();
         executor.scheduleAtFixedRate(
                 this::runCycle,
                 0,
@@ -40,25 +53,30 @@ public class Simulation {
         try {
             tickCounter++;
 
+            movedThisTick = 0;
             diedThisTick = 0;
             bornThisTick = 0;
             ateThisTick = 0;
-            multipliedThisTick = 0;
+            plantsGrewThisTick = 0;
 
             moveAndDecreaseSatiety();
+            diedThisTick();
 
-            checkAndHandleDeaths();
 
             if (tickCounter % 2 == 0) {
-                eatAll();
-                multiplyAll();
+                eatAndMultiply();
             }
 
             if (tickCounter % 3 == 0) {
-                convertDeadAnimalsToPlants();
+                growPlants();
             }
 
             printTickStatistics();
+
+            if (numberOfTicks<=tickCounter){
+                System.out.println("Виконано " + tickCounter + " тактів. Зупиняємо симуляцію.");
+                stop();
+            }
 
             if (isAllAnimalsDead()) {
                 System.out.println("Усі тварини померли. Зупиняємо симуляцію.");
@@ -71,42 +89,83 @@ public class Simulation {
         }
     }
 
-
-    private void printInitialStatistics() {
-
-    }
-
     private void moveAndDecreaseSatiety() {
+        for (int x = 0; x < island.getWIDTH(); x++) {
+            for (int y = 0; y< island.getHEIGHT(); y++){
+                Location location=island.getLocation(x,y);
+                for (Animal animal : location.getAnimals()){
+                    if (animal.move(island)){
+                        movedThisTick++;
+                    }
+                    animal.decreaseSatiety();
+                }
+            }
 
+        }
     }
 
-    private void checkAndHandleDeaths() {
+    private void diedThisTick(){
 
+        for (int x = 0; x < island.getWIDTH(); x++) {
+            for (int y = 0; y< island.getHEIGHT(); y++){
+                Location location=island.getLocation(x,y);
+                for (Animal animal : location.getAnimals()){
+                    if (!animal.isAlive()){
+                        diedThisTick++;
+                        locationsWithDead.add(location);
+                    }
+                }
+            }
+
+        }
     }
 
-    private void eatAll() {
 
+    private void eatAndMultiply() {
+        for (int x = 0; x < island.getWIDTH(); x++) {
+            for (int y = 0; y< island.getHEIGHT(); y++){
+                Location location=island.getLocation(x,y);
+                for (Animal animal : location.getAnimals()){
+                    if (animal.eat()){
+                        ateThisTick++;
+                    }
+                    if (animal.multiply()){
+                        bornThisTick++;
+                    }
+                }
+            }
+
+        }
     }
 
-    private void multiplyAll() {
-
-    }
-
-    private void convertDeadAnimalsToPlants() {
-
+    private void growPlants(){
+        for (Location location : locationsWithDead){
+            plantsGrewThisTick += Plant.grow(location);
+        }
+        locationsWithDead.clear();
     }
 
     private boolean isAllAnimalsDead() {
+        for (int x = 0; x < island.getWIDTH(); x++) {
+            for (int y = 0; y< island.getHEIGHT(); y++){
+                Location location=island.getLocation(x,y);
+                for (Animal animal : location.getAnimals()){
+                    if (animal.isAlive()){
+                        return false;
+                    }
+                }
+            }
+        }
         return true;
     }
 
     private void printTickStatistics() {
         System.out.println("=== Такт #" + tickCounter + " ===");
+        System.out.println("  Походило тварин: " + movedThisTick);
         System.out.println("  Померло тварин: " + diedThisTick);
         System.out.println("  Народилося тварин: " + bornThisTick);
         System.out.println("  Поїли тварин: " + ateThisTick);
-        System.out.println("  Розмножилися: " + multipliedThisTick);
-        // Ще можна вивести поточну кількість усіх живих тварин чи рослин
-        // (потрібно підрахувати)
+        System.out.println("  Виросло рослин: " + plantsGrewThisTick);
+
     }
 }
