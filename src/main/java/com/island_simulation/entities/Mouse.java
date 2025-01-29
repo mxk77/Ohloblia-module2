@@ -1,6 +1,6 @@
-package entities;
+package com.island_simulation.entities;
 
-import island.Location;
+import com.island_simulation.island_config.Location;
 
 public class Mouse extends Herbivore {
     public Mouse(Location location){

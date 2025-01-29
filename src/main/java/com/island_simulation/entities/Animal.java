@@ -1,12 +1,9 @@
-package entities;
+package com.island_simulation.entities;
 
-import island.Island;
-import island.Location;
+import com.island_simulation.island_config.Island;
+import com.island_simulation.island_config.Location;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.spi.AbstractResourceBundleProvider;
 
 public abstract class Animal {
 

@@ -1,4 +1,4 @@
-package island;
+package com.island_simulation.island_config;
 
 import java.util.ArrayList;
 import java.util.List;
