@@ -59,6 +59,7 @@ public class Simulation {
 
     public void stop() {
         executor.shutdownNow();
+        workerPool.shutdownNow();
     }
 
     private void runCycle() {
