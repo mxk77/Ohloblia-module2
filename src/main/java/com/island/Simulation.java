@@ -116,7 +116,6 @@ public class Simulation {
             Future<?> future = workerPool.submit(() -> chunkAction.accept(startX, endX));
             futures.add(future);
         }
-
         // Чекаємо на завершення всіх задач
         waitForAllFutures(futures);
     }
