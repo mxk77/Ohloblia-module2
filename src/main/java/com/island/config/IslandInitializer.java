@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class IslandInitializer {
 
     private final Island island;
-    private static final double FILL_FACTOR = 0.4;
+    private static final double FILL_FACTOR = 0.001;
 
     public IslandInitializer(Island island){
         this.island = island;
@@ -79,14 +79,14 @@ public class IslandInitializer {
         }
     }
 
-    private  <T extends Plant> void spawnPlants(Class<T> plantClass) {
+    private void spawnPlants(Class<Plant> plantClass) {
         try {
             // 1. Дістанемо конструктор (Location)
-            Constructor<T> constructor = plantClass.getConstructor(Location.class);
+            Constructor<Plant> constructor = plantClass.getConstructor(Location.class);
 
             // 2. Створимо "тимчасову" рослину
             Location dummyLocation = island.getLocation(0, 0);
-            T dummy = constructor.newInstance(dummyLocation);
+            Plant dummy = constructor.newInstance(dummyLocation);
 
             // 3. Через гетер дізнаємося максимальну кількість на локації
             int maxNumberInLocation = dummy.getMaxNumberInLocation();
@@ -108,7 +108,7 @@ public class IslandInitializer {
                         .count();
 
                 if (sameSpeciesCount < maxNumberInLocation) {
-                    T plant = constructor.newInstance(location);
+                    Plant plant = constructor.newInstance(location);
                     location.addPlant(plant);
                     created++;
                 }
@@ -123,6 +123,4 @@ public class IslandInitializer {
             e.printStackTrace();
         }
     }
-
-
 }

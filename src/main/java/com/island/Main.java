@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         Island island = new Island();
         IslandInitializer initializer = new IslandInitializer(island);
-        Simulation simulation = new Simulation(island, 100);
+        Simulation simulation = new Simulation(island, 10);
 
         simulation.start(initializer);
     }

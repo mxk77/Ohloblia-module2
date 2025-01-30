@@ -27,6 +27,10 @@ public class Simulation {
     private int ateThisTick = 0;
     private int plantsGrewThisTick = 0;
 
+    private int totalDied = 0;
+    private int totalBorn = 0;
+    private int aliveAnimals = 0;
+
     private final Set<Location> locationsWithDead = new HashSet<>();
 
     private final ScheduledExecutorService executor;
@@ -63,25 +67,21 @@ public class Simulation {
 
             moveAndDecreaseSatiety();
             diedThisTick();
-
-
-            if (tickCounter % 2 == 0) {
-                eatAndMultiply();
-            }
-
-            if (tickCounter % 3 == 0) {
-                growPlants();
-            }
+            eatAndMultiply();
+            growPlants();
 
             printTickStatistics();
 
             if (numberOfTicks<=tickCounter){
                 System.out.println("Виконано " + tickCounter + " тактів. Зупиняємо симуляцію.");
+                aliveAnimals();
+                printFinalStatistics();
                 stop();
             }
 
             if (isAllAnimalsDead()) {
                 System.out.println("Усі тварини померли. Зупиняємо симуляцію.");
+                printFinalStatistics();
                 stop();
             }
 
@@ -120,7 +120,7 @@ public class Simulation {
                     }
                 }
             }
-
+            totalDied+=diedThisTick;
         }
     }
 
@@ -139,8 +139,8 @@ public class Simulation {
                     }
                 }
             }
-
         }
+        totalBorn+=bornThisTick;
     }
 
     private void growPlants(){
@@ -165,13 +165,32 @@ public class Simulation {
         return true;
     }
 
+    private void aliveAnimals(){
+        for (int x = 0; x < island.getWIDTH(); x++) {
+            for (int y = 0; y< island.getHEIGHT(); y++){
+                Location location=island.getLocation(x,y);
+                List<Animal> animals = new ArrayList<>(location.getAnimals());
+                for (Animal animal : animals){
+                    if (animal.isAlive()){
+                        aliveAnimals++;
+                    }
+                }
+            }
+        }
+    }
+
     private void printTickStatistics() {
-        System.out.println("=== Такт #" + tickCounter + " ===");
+        System.out.println("\n=== Такт #" + tickCounter + " ===");
         System.out.println("  Походило тварин: " + movedThisTick);
         System.out.println("  Померло тварин: " + diedThisTick);
         System.out.println("  Народилося тварин: " + bornThisTick);
         System.out.println("  Поїло тварин: " + ateThisTick);
         System.out.println("  Виросло рослин: " + plantsGrewThisTick);
+    }
 
+    private void printFinalStatistics(){
+        System.out.println("\n  Живих тварин: " + aliveAnimals);
+        System.out.println("  Померло тварин за час симуляції: " + totalDied);
+        System.out.println("  Народилося тварин за час симуляції: " + totalBorn);
     }
 }

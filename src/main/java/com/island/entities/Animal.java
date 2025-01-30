@@ -85,7 +85,7 @@ public abstract class Animal {
 
     public void decreaseSatiety(){
         if (this.isAlive() && this.getSatiety()>0){
-            double reduceSatiety = this.getWeight()* ThreadLocalRandom.current().nextDouble(0,0.2);
+            double reduceSatiety = this.getWeight()* ThreadLocalRandom.current().nextDouble(0,0.8);
             setSatiety(Math.max(0, this.getSatiety() - reduceSatiety));
         } else {
             this.setDead();
